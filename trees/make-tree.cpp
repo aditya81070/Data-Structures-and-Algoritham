@@ -114,6 +114,26 @@ void levelOrder(BinaryTreeNode *root){
     }
   }
 }
+
+int findMax(BinaryTreeNode *root) {
+  int root_value, left, right, max = INT8_MIN;
+  if (root != NULL){
+    root_value = root->data;
+    left = findMax(root->left);
+    right = findMax(root->right);
+
+    if (left > right) {
+      max = left;
+    } else {
+      max = right;
+    }
+    if(root_value > max) {
+      max = root_value;
+    }
+  }
+  return max;
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -188,6 +208,9 @@ int main() {
   printf("\n");
   printf("\n----------------- LevelOrder Travesal -------------------\n");
   levelOrder(root);
+  printf("\n");
+  printf("\n----------------- Maximun value of the tree -------------------\n");
+  printf("%d ", findMax(root));
   printf("\n");
   return 0;
 }
