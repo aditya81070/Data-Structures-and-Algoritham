@@ -134,6 +134,27 @@ int findMax(BinaryTreeNode *root) {
   return max;
 }
 
+bool findInBinaryTree(BinaryTreeNode *root, int data)
+{
+  bool temp;
+  if (root == NULL)
+    return false;
+  else
+  {
+    if (root->data == data)
+    {
+      return true;
+    } else {
+    temp = findInBinaryTree(root->left, data);
+    if (!temp)
+      return temp;
+    else
+      return (findInBinaryTree(root->right, data));
+    }
+  }
+  return false;
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -179,7 +200,7 @@ BinaryTreeNode* InsertInBinaryTree(BinaryTreeNode *root, int data){
 }
 
 int main() {
-  int data;
+  int data, temp;
   BinaryTreeNode *root = NULL;
   do {
     printf("Enter the data you want to insert or -1 to stop\n");
@@ -211,6 +232,13 @@ int main() {
   printf("\n");
   printf("\n----------------- Maximun value of the tree -------------------\n");
   printf("%d ", findMax(root));
+  printf("\n Enter element to be searched");
+  scanf("%d", &temp);
+  if(findInBinaryTree(root, temp)) {
+    printf("data is in the tree");
+  } else {
+    printf("data is not in the tree");
+  }
   printf("\n");
   return 0;
 }
