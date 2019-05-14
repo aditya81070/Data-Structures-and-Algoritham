@@ -39,6 +39,24 @@ void preorder(BinaryTreeNode *root) {
   preorder(root->right);
 }
 
+void inorderWithStack(BinaryTreeNode *root){
+  stack <BinaryTreeNode*> st;
+  while(1){
+    while(root){
+      st.push(root);
+      root = root->left;
+    }
+
+    if(st.empty()){
+      break;
+    }
+    root = st.top();
+    st.pop();
+    printf("%d ", root->data);
+    root = root->right;
+  }
+}
+
 void inorder(BinaryTreeNode *root) {
   if(root == NULL) return;
   inorder(root->left);
@@ -46,6 +64,29 @@ void inorder(BinaryTreeNode *root) {
   inorder(root->right);
 }
 
+void postorderWithStack (BinaryTreeNode *root) {
+  stack <BinaryTreeNode *> st;
+  BinaryTreeNode *previous = NULL;
+  while(1){
+    while(root){
+      st.push(root);
+      root = root->left;
+    }
+    while(root == NULL && !st.empty()){
+      root = st.top();
+      if (root->right == NULL || root->right == previous){
+        printf("%d ", root->data);
+        st.pop();
+        previous = root;
+        root = NULL;
+      } else {
+        root = root->right;
+      }
+    }
+    if(st.empty())
+      break;
+  }
+}
 void postorder(BinaryTreeNode *root){
   if(root == NULL) return;
   postorder(root->left);
@@ -116,8 +157,14 @@ int main() {
   printf("\n----------------- Inorder Travesal -------------------\n");
   inorder(root);
   printf("\n");
+  printf("\n----------------- InorderStack Travesal -------------------\n");
+  inorderWithStack(root);
+  printf("\n");
   printf("\n----------------- PostOrder Travesal -------------------\n");
   postorder(root);
+  printf("\n");
+  printf("\n----------------- PostOrderStack Travesal -------------------\n");
+  postorderWithStack(root);
   printf("\n");
   return 0;
 }
