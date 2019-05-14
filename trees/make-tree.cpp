@@ -94,6 +94,26 @@ void postorder(BinaryTreeNode *root){
   printf("%d ", root->data);
 }
 
+void levelOrder(BinaryTreeNode *root){
+  queue <BinaryTreeNode *> q;
+  BinaryTreeNode *temp;
+  if(root == NULL){
+    return;
+  }
+  q.push(root);
+  while(!q.empty()) {
+    temp = q.front();
+    q.pop();
+    printf("%d ", temp->data);
+
+    if (temp->left) {
+      q.push(temp->left);
+    }
+    if (temp->right) {
+      q.push(temp->right);
+    }
+  }
+}
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -165,6 +185,9 @@ int main() {
   printf("\n");
   printf("\n----------------- PostOrderStack Travesal -------------------\n");
   postorderWithStack(root);
+  printf("\n");
+  printf("\n----------------- LevelOrder Travesal -------------------\n");
+  levelOrder(root);
   printf("\n");
   return 0;
 }
