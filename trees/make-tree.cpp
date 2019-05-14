@@ -1,5 +1,6 @@
 #include<iostream>
 #include<queue>
+#include <stack>
 #include<cstdlib>
 using namespace std;
 
@@ -14,6 +15,23 @@ void emptyQueue(queue <BinaryTreeNode *> q) {
   }
 }
 
+void preorderWithStack (BinaryTreeNode *root) {
+ stack <BinaryTreeNode* > st;
+ while(1){
+   while(root){
+     printf("%d ", root->data);
+     st.push(root);
+     root = root->left;
+   }
+
+   if(st.empty()){
+     break;
+   }
+   root = st.top();
+   st.pop();
+   root = root->right;
+ }
+}
 void preorder(BinaryTreeNode *root) {
   if(root == NULL) return;
   printf("%d ", root->data);
@@ -91,6 +109,9 @@ int main() {
   } while(data != -1);
   printf("\n----------------- Preorder Travesal -------------------\n");
   preorder(root);
+  printf("\n");
+  printf("\n----------------- PreorderStack Travesal -------------------\n");
+  preorderWithStack(root);
   printf("\n");
   printf("\n----------------- Inorder Travesal -------------------\n");
   inorder(root);
