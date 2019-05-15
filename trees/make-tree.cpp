@@ -161,6 +161,16 @@ int sizeOfBinaryTree(BinaryTreeNode *root) {
   else return (sizeOfBinaryTree(root->left)) + 1 + (sizeOfBinaryTree(root->right));
 }
 
+void deleteBinaryTree(BinaryTreeNode *root) {
+  if(root == NULL) {
+    return;
+  }
+
+  deleteBinaryTree(root->left);
+  deleteBinaryTree(root->right);
+  free(root);
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
