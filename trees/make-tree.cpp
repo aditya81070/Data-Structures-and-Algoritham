@@ -300,6 +300,18 @@ void printPathToLeafs (BinaryTreeNode *root, int path[], int pathLen) {
   }
 }
 
+BinaryTreeNode* mirrorTree(BinaryTreeNode *root) {
+  BinaryTreeNode *temp;
+  if (root) {
+    mirrorTree(root->left);
+    mirrorTree(root->right);
+    temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+  }
+  return root;
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -346,7 +358,7 @@ BinaryTreeNode* InsertInBinaryTree(BinaryTreeNode *root, int data){
 
 int main() {
   int data, temp, path[100], pathLen = 0;
-  BinaryTreeNode *root = NULL, deepestNode;
+  BinaryTreeNode *root = NULL, deepestNode, *mirrorRoot;
   do {
     printf("Enter the data you want to insert or -1 to stop\n");
     scanf("%d", &data);
@@ -405,5 +417,9 @@ int main() {
   printf("\n");
   printf("\n----------------- Path from root to leaf nodes  -------------------\n");
   printPathToLeafs(root, path, pathLen);
+  printf("\n----------------- Level order of Mirror Image of given node  -------------------\n");
+  mirrorRoot = mirrorTree(root);
+  levelOrder(mirrorRoot);
+  printf("\n");
   return 0;
 }
