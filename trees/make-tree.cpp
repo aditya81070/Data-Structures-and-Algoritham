@@ -250,6 +250,36 @@ int countLeafNodes (BinaryTreeNode *root) {
   return count;
 }
 
+int levelWithMaxSum(BinaryTreeNode *root) {
+  int maxLevel = 0, level = 0, currentSum = 0, maxSum = 0;
+  queue <BinaryTreeNode*> q;
+  BinaryTreeNode *temp;
+  if (root == NULL) return 0;
+  q.push(root);
+  q.push(NULL);
+  while(!q.empty()) {
+    temp = q.front();
+    q.pop();
+    if (temp == NULL) {
+      if (currentSum > maxSum) {
+        maxSum = currentSum;
+        maxLevel = level;
+      }
+      currentSum = 0;
+      if (!q.empty())
+        q.push(NULL);
+      level++;
+    } else {
+      currentSum += temp->data;
+      if (temp->left)
+        q.push(temp->left);
+      if (temp->right)
+        q.push(temp->right);
+    }
+  }
+  return maxLevel;
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -349,6 +379,9 @@ int main() {
   printf("\n");
   printf("\n----------------- Number of leaf nodes -------------------\n");
   printf("%d", countLeafNodes(root));
+  printf("\n");
+  printf("\n----------------- Level with maximum sum  -------------------\n");
+  printf("%d", levelWithMaxSum(root));
   printf("\n");
   return 0;
 }
