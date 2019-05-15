@@ -171,6 +171,20 @@ void deleteBinaryTree(BinaryTreeNode *root) {
   free(root);
 }
 
+int heightOfBinaryTree(BinaryTreeNode *root) {
+  int leftHeight, rightHeight;
+  if (root == NULL) {
+    return -1;
+  }
+  leftHeight = heightOfBinaryTree(root->left);
+  rightHeight = heightOfBinaryTree(root->right);
+
+  if (leftHeight > rightHeight) {
+    return leftHeight + 1; // extra 1 for the current node
+  } else {
+    return rightHeight + 1;
+  }
+}
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -258,6 +272,9 @@ int main() {
   printf("\n");
   printf("\n----------------- size of the tree -------------------\n");
   printf("%d", sizeOfBinaryTree(root));
+  printf("\n");
+  printf("\n----------------- Height of the tree -------------------\n");
+  printf("%d", heightOfBinaryTree(root));
   printf("\n");
   return 0;
 }
