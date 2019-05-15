@@ -280,6 +280,26 @@ int levelWithMaxSum(BinaryTreeNode *root) {
   return maxLevel;
 }
 
+void printPath (int path[], int len) {
+  for (int i = 0; i<len ;i++) {
+    printf("%d ", path[i]);
+  }
+  printf("\n");
+}
+void printPathToLeafs (BinaryTreeNode *root, int path[], int pathLen) {
+  if (root == NULL) {
+    return;
+  }
+  path[pathLen] = root->data;
+  pathLen++;
+  if (root->left == NULL && root->right == NULL) {
+    printPath(path, pathLen);
+  } else {
+    printPathToLeafs(root->left, path, pathLen);
+    printPathToLeafs(root->right, path, pathLen);
+  }
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -325,7 +345,7 @@ BinaryTreeNode* InsertInBinaryTree(BinaryTreeNode *root, int data){
 }
 
 int main() {
-  int data, temp;
+  int data, temp, path[100], pathLen = 0;
   BinaryTreeNode *root = NULL, deepestNode;
   do {
     printf("Enter the data you want to insert or -1 to stop\n");
@@ -383,5 +403,7 @@ int main() {
   printf("\n----------------- Level with maximum sum  -------------------\n");
   printf("%d", levelWithMaxSum(root));
   printf("\n");
+  printf("\n----------------- Path from root to leaf nodes  -------------------\n");
+  printPathToLeafs(root, path, pathLen);
   return 0;
 }
