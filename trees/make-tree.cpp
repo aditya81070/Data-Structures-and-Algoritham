@@ -185,6 +185,33 @@ int heightOfBinaryTree(BinaryTreeNode *root) {
     return rightHeight + 1;
   }
 }
+
+int heightOfBinaryTreeWithoutRecursion (BinaryTreeNode *root) {
+  queue <BinaryTreeNode*> q;
+  int level = -1;
+  if (root == NULL) return 0;
+  q.push(root);
+  // we push NULL to show the end of current level
+  q.push(NULL);
+
+  while (!q.empty()) {
+    root = q.front();
+    q.pop();
+    if (root == NULL) {
+      if (!q.empty()) {
+        q.push(NULL);
+      }
+      level++;
+    } else {
+      if (root->left)
+        q.push(root->left);
+      if (root->right) {
+        q.push(root->right);
+      }
+    }
+  }
+  return level;
+}
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -275,6 +302,9 @@ int main() {
   printf("\n");
   printf("\n----------------- Height of the tree -------------------\n");
   printf("%d", heightOfBinaryTree(root));
+  printf("\n");
+  printf("\n----------------- Height of the tree without recursion -------------------\n");
+  printf("%d", heightOfBinaryTreeWithoutRecursion(root));
   printf("\n");
   return 0;
 }
