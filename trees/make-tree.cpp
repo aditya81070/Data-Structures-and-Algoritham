@@ -312,6 +312,19 @@ BinaryTreeNode* mirrorTree(BinaryTreeNode *root) {
   return root;
 }
 
+BinaryTreeNode* LeastCommonAncestor(BinaryTreeNode *root, int alpha, int beta) {
+  BinaryTreeNode *left, *right;
+  if (root == NULL) return root;
+  if (root->data == alpha || root->data == beta) return root;
+  left = LeastCommonAncestor(root->left, alpha, beta);
+  right = LeastCommonAncestor(root->right, alpha, beta);
+  if (left && right) {
+    return root;
+  } else return left ? left : right;
+
+  if (left == NULL && right == NULL) return NULL;
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -357,8 +370,8 @@ BinaryTreeNode* InsertInBinaryTree(BinaryTreeNode *root, int data){
 }
 
 int main() {
-  int data, temp, path[100], pathLen = 0;
-  BinaryTreeNode *root = NULL, deepestNode, *mirrorRoot;
+  int data, temp, path[100], pathLen = 0, alpha, beta;
+  BinaryTreeNode *root = NULL, *lca, *mirrorRoot;
   do {
     printf("Enter the data you want to insert or -1 to stop\n");
     scanf("%d", &data);
@@ -420,6 +433,16 @@ int main() {
   printf("\n----------------- Level order of Mirror Image of given node  -------------------\n");
   mirrorRoot = mirrorTree(root);
   levelOrder(mirrorRoot);
+  printf("\n");
+  printf("\n----------------- Least Common Ancestor  -------------------\n");
+  printf("Enter value of alpha and beta to find LCA");
+  scanf("%d%d", &alpha, &beta);
+  lca = LeastCommonAncestor(root, alpha, beta);
+  if (lca == NULL) {
+    printf("one or both value doesn't exist in the tree");
+  } else {
+    printf("LCA of %d and %d is %d", alpha, beta, lca->data);
+  }
   printf("\n");
   return 0;
 }
