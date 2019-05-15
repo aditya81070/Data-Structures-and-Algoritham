@@ -229,6 +229,27 @@ BinaryTreeNode* findDeepestNode(BinaryTreeNode *root) {
   return temp;
 }
 
+int countLeafNodes (BinaryTreeNode *root) {
+  queue <BinaryTreeNode*> q;
+  BinaryTreeNode *temp;
+  int count;
+  if (root == NULL) return 0;
+  q.push(root);
+  while(!q.empty()) {
+    temp = q.front();
+    q.pop();
+    if (temp->left == NULL && temp->right == NULL) {
+      count++;
+    } else {
+      if (temp->left)
+        q.push(temp->left);
+      if (temp->right)
+        q.push(temp->right);
+    }
+  }
+  return count;
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -325,6 +346,9 @@ int main() {
   printf("\n");
   printf("\n----------------- Deepest node of the tree -------------------\n");
   printf("%d", findDeepestNode(root)->data);
+  printf("\n");
+  printf("\n----------------- Number of leaf nodes -------------------\n");
+  printf("%d", countLeafNodes(root));
   printf("\n");
   return 0;
 }
