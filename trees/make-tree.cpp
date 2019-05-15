@@ -134,6 +134,7 @@ int findMax(BinaryTreeNode *root) {
   return max;
 }
 
+// TODO: fix the error
 bool findInBinaryTree(BinaryTreeNode *root, int data)
 {
   bool temp;
@@ -147,12 +148,17 @@ bool findInBinaryTree(BinaryTreeNode *root, int data)
     } else {
     temp = findInBinaryTree(root->left, data);
     if (!temp)
-      return temp;
+      return false;
     else
       return (findInBinaryTree(root->right, data));
     }
   }
   return false;
+}
+
+int sizeOfBinaryTree(BinaryTreeNode *root) {
+  if (root == NULL) return 0;
+  else return (sizeOfBinaryTree(root->left)) + 1 + (sizeOfBinaryTree(root->right));
 }
 
 BinaryTreeNode* createNode(int data){
@@ -239,6 +245,9 @@ int main() {
   } else {
     printf("data is not in the tree");
   }
+  printf("\n");
+  printf("\n----------------- size of the tree -------------------\n");
+  printf("%d", sizeOfBinaryTree(root));
   printf("\n");
   return 0;
 }
