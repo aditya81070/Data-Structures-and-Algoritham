@@ -212,6 +212,23 @@ int heightOfBinaryTreeWithoutRecursion (BinaryTreeNode *root) {
   }
   return level;
 }
+
+BinaryTreeNode* findDeepestNode(BinaryTreeNode *root) {
+  queue <BinaryTreeNode*> q;
+  BinaryTreeNode *temp;
+  if (root == NULL) return NULL;
+  q.push(root);
+  while(!q.empty()) {
+    temp = q.front();
+    q.pop();
+    if (temp->left)
+      q.push(temp->left);
+    if (temp->right)
+      q.push(temp->right);
+  }
+  return temp;
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -258,7 +275,7 @@ BinaryTreeNode* InsertInBinaryTree(BinaryTreeNode *root, int data){
 
 int main() {
   int data, temp;
-  BinaryTreeNode *root = NULL;
+  BinaryTreeNode *root = NULL, deepestNode;
   do {
     printf("Enter the data you want to insert or -1 to stop\n");
     scanf("%d", &data);
@@ -305,6 +322,9 @@ int main() {
   printf("\n");
   printf("\n----------------- Height of the tree without recursion -------------------\n");
   printf("%d", heightOfBinaryTreeWithoutRecursion(root));
+  printf("\n");
+  printf("\n----------------- Deepest node of the tree -------------------\n");
+  printf("%d", findDeepestNode(root)->data);
   printf("\n");
   return 0;
 }
