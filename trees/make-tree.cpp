@@ -147,10 +147,10 @@ bool findInBinaryTree(BinaryTreeNode *root, int data)
       return true;
     } else {
     temp = findInBinaryTree(root->left, data);
-    if (!temp)
-      return false;
+    if (temp)
+      return temp;
     else
-      return (findInBinaryTree(root->right, data));
+      return findInBinaryTree(root->right, data);
     }
   }
   return false;
