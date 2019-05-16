@@ -2,6 +2,7 @@
 #include<queue>
 #include <stack>
 #include<cstdlib>
+#include<algorithm>
 using namespace std;
 
 struct BinaryTreeNode {
@@ -322,7 +323,34 @@ BinaryTreeNode* LeastCommonAncestor(BinaryTreeNode *root, int alpha, int beta) {
     return root;
   } else return left ? left : right;
 
-  if (left == NULL && right == NULL) return NULL;
+}
+
+int search(int inorder[], int start, int end, int data) {
+  for (int i = start; i <=end; i++) {
+    if (inorder[i] == data) {
+      return i;
+    }
+  }
+}
+
+BinaryTreeNode* makeTreeWithTravesal(int inorderArray[], int preOrderArray[], int inorderStart, int inorderEnd) {
+  static int preorderIndex = 0;
+  BinaryTreeNode *newNode;
+  if (inorderStart > inorderEnd) return NULL;
+  newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
+  if (!newNode) {
+    printf("Memory Error\n");
+    return NULL;
+  }
+
+  newNode->data = preOrderArray[preorderIndex];
+  preorderIndex++;
+  if (inorderStart == inorderEnd) return newNode;
+
+  int inorderIndex = search(inorderArray, inorderStart, inorderEnd, newNode->data);
+  newNode->left = makeTreeWithTravesal(inorderArray, preOrderArray, inorderStart, inorderIndex - 1);
+  newNode->right = makeTreeWithTravesal(inorderArray, preOrderArray, inorderIndex + 1, inorderEnd);
+  return newNode;
 }
 
 BinaryTreeNode* createNode(int data){
@@ -370,8 +398,8 @@ BinaryTreeNode* InsertInBinaryTree(BinaryTreeNode *root, int data){
 }
 
 int main() {
-  int data, temp, path[100], pathLen = 0, alpha, beta;
-  BinaryTreeNode *root = NULL, *lca, *mirrorRoot;
+  int data, temp, path[100], pathLen = 0, alpha, beta, preOrderArray[100], inorderArray[100], count = 0;
+  BinaryTreeNode *root = NULL, *lca, *mirrorRoot, *newRootNode;
   do {
     printf("Enter the data you want to insert or -1 to stop\n");
     scanf("%d", &data);
@@ -444,5 +472,22 @@ int main() {
     printf("LCA of %d and %d is %d", alpha, beta, lca->data);
   }
   printf("\n");
+  printf("Enter the preorder travesal of the tree (max 100 elements) and enter -1 to stop");
+  do {
+    scanf("%d", &temp);
+    if (temp != -1) {
+    preOrderArray[count] = temp;
+    count++;
+    }
+  } while (temp != -1 && count <100);
+  printf("Enter the inorder traversal of the tree");
+  for (int i = 0; i<count; i++){
+    scanf("%d", &inorderArray[i]);
+  }
+  newRootNode = makeTreeWithTravesal(inorderArray, preOrderArray, 0, count-1);
+  printf("\n");
+  inorder(newRootNode);
+  printf("\n");
+  levelOrder(newRootNode);
   return 0;
 }
