@@ -353,6 +353,16 @@ BinaryTreeNode* makeTreeWithTravesal(int inorderArray[], int preOrderArray[], in
   return newNode;
 }
 
+// TODO: fix this code
+int printAllAncestor(BinaryTreeNode *root, int data) {
+  if (root == NULL) return 0;
+  if ((root->left)->data == data || (root->right)->data == data || printAllAncestor(root->left, data) || printAllAncestor(root->right, data)) {
+    printf("%d ", root->data);
+    return 1;
+  }
+  return 0;
+}
+
 BinaryTreeNode* createNode(int data){
   BinaryTreeNode *newNode = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
   if(!newNode){
@@ -489,5 +499,7 @@ int main() {
   inorder(newRootNode);
   printf("\n");
   levelOrder(newRootNode);
-  return 0;
+  printf("\n Enter an element to find ancestor of it");
+  scanf("%d", &temp);
+  printAllAncestor(newRootNode, temp);
 }
