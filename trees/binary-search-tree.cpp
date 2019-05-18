@@ -80,6 +80,39 @@ void findSucPre(Node *root, Node* &pre, Node *&suc, int key) {
   }
 }
 
+Node* findMax(Node* root) {
+  if (root == NULL) return NULL;
+  if (root && root->right == NULL) return root;
+  return findMax(root->right);
+}
+
+Node* deleteFromBST(Node *root, int data) {
+  Node* temp;
+  if (root == NULL) {
+    printf("Element is not in the tree\n");
+  } else if (data < root->data) {
+    root->left = deleteFromBST(root->left, data);
+  } else if (data > root->data) {
+    root->right = deleteFromBST(root->right, data);
+  } else {
+    if (root->left && root->right) {
+      temp = findMax(root->left);
+      root->data = temp->data;
+      root->left = deleteFromBST(root->left, root->data);
+    } else {
+      temp = root;
+      if (root->left == NULL){
+        root = root->right;
+      }
+      if (root->right == NULL) {
+        root = root->left;
+      }
+      free(temp);
+    }
+  }
+  return root;
+}
+
 int main () {
   Node *root = NULL, *tempNode, *pre, *suc;
   int temp;
@@ -102,5 +135,13 @@ int main () {
   scanf("%d", &temp);
   findSucPre(root, pre, suc, temp);
   printf("inorder predecessor and successor is %d and %d\n",pre->data, suc->data);
+  printf("Enter node to be deleted\n");
+  scanf("%d", &temp);
+  root = deleteFromBST(root, temp);
+  printf("tree after deletion\n");
+  printf("\nPreorder travesal of the tree\n");
+  preorder(root);
+  printf("\nInorder travesal of the tree\n");
+  inorder(root);
   return 0;
 }
