@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main() {
+  int t;
+  cin>>t;
+  while(t--) {
+    long unsigned int n;
+    cin>>n;
+    int count = 0;
+    for(unsigned int i = 5; n/ i>=1; i*=5) {
+      count+= n/i;
+    }
+    cout<<count<<endl;
+  }
+  return 0;
+}
