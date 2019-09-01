@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 typedef long long ll;
-#define MAX 1000000000
+#define MAX 100000000
 using namespace std;
 int main() {
   bool *primes = new bool[MAX+1];
@@ -17,7 +17,6 @@ int main() {
       }
     }
   }
-  cout<<"prime numbers done";
   int t;
   cin>>t;
   while(t--){
@@ -25,7 +24,7 @@ int main() {
     cin>>m>>n;
     for(ll i = m; i<=n; i++) {
       if(primes[i]){
-        cout<<i<<" ";
+        printf("%lld ", i);
       }
     }
   }
